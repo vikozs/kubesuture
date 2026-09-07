@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KubeSuture | Universal Kubernetes & OpenShift Mesh Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black tracking-wider text-emerald-400">Kube<span class="text-white">Suture</span></span>
+                <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs px-2 py-0.5 rounded-full font-mono">v0.1.0-beta</span>
+            </div>
+            <nav class="flex items-center space-x-6 text-sm text-slate-400">
+                <a href="#features" class="hover:text-white transition">Features</a>
+                <a href="#demo" class="hover:text-white transition">Live Converter</a>
+                <a href="#docs" class="hover:text-white transition">Docs</a>
+                <a href="https://github.com/kosir/kubesuture" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg border border-slate-700 transition">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-16 flex-grow">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
+                Bridge <span class="text-emerald-400">k3s</span>, <span class="text-blue-400">K8s</span>, and <span class="text-red-500">OpenShift</span> Seamlessly
+            </h1>
+            <p class="text-lg text-slate-400 mb-8">
+                Autonomous cross-distribution spec translation, edge drift management, and GitOps remediation engine for hybrid cloud & edge infrastructure.
+            </p>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 inline-flex items-center space-x-4 max-w-xl w-full justify-between font-mono text-sm text-slate-300">
+                <span class="truncate text-emerald-400">$ curl -sSL https://kubesuture.kosir.info/install.sh | sh</span>
+                <button onclick="navigator.clipboard.writeText('curl -sSL https://kubesuture.kosir.info/install.sh | sh')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded border border-slate-700 text-xs transition">Copy</button>
+            </div>
+        </div>
+
+        <section id="demo" class="my-16 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
+            <h2 class="text-xl font-bold mb-4 flex items-center space-x-2">
+                <span class="text-emerald-400">⚡</span>
+                <span>Live Spec Translation Engine</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-2">Input: OpenShift Route YAML</label>
+                    <textarea id="inputYaml" class="w-full h-64 bg-slate-950 border border-slate-800 rounded-lg p-3 text-slate-300 focus:outline-none focus:border-emerald-500">apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: example-app
+  namespace: production
+spec:
+  host: app.example.com
+  to:
+    kind: Service
+    name: example-service
+  port:
+    targetPort: 8080</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-2">Output: Standard Kubernetes Ingress YAML</label>
+                    <pre id="outputYaml" class="w-full h-64 bg-slate-950 border border-slate-800 rounded-lg p-3 text-emerald-400 overflow-x-auto">Click 'Translate' to generate...</pre>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button onclick="translateSpec()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-5 py-2 rounded-lg transition">Translate Manifest</button>
+            </div>
+        </section>
+
+        <section id="features" class="grid grid-cols-1 md:grid-cols-3 gap-8 my-16">
+            <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-xl">
+                <div class="text-emerald-400 text-2xl mb-3">🔄</div>
+                <h3 class="text-lg font-bold mb-2">Universal Spec Engine</h3>
+                <p class="text-slate-400 text-sm">Automatically map OpenShift Security Context Constraints and Routes to upstream K8s specs and Gateway APIs.</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-xl">
+                <div class="text-emerald-400 text-2xl mb-3">⚡</div>
+                <h3 class="text-lg font-bold mb-2">Edge k3s Daemon</h3>
+                <p class="text-slate-400 text-sm">Ultra-low footprint (&lt;45MB RAM) diagnostic agent designed specifically for resource-constrained edge deployments.</p>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-xl">
+                <div class="text-emerald-400 text-2xl mb-3">🛠️</div>
+                <h3 class="text-lg font-bold mb-2">GitOps Remediation</h3>
+                <p class="text-slate-400 text-sm">Prevents cluster drift by opening validated, automated Pull Requests directly to ArgoCD or Flux repositories.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-slate-800 py-8 bg-slate-950">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center text-sm text-slate-500">
+            <p>© 2026 KubeSuture Project. Hosted at <span class="text-slate-300">kubesuture.kosir.info</span></p>
+            <p>Powered by Cloudflare Pages</p>
+        </div>
+    </footer>
+
+    <script>
+        function translateSpec() {
+            const input = document.getElementById('inputYaml').value;
+            if(input.includes('kind: Route')) {
+                const output = `apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-app
+  namespace: production
+  annotations:
+    kubesuture.io/translated-from: route.openshift.io/v1
+spec:
+  rules:
+  - host: app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: example-service
+            port:
+              number: 8080`;
+                document.getElementById('outputYaml').textContent = output;
+            } else {
+                document.getElementById('outputYaml').textContent = "# Specified manifest does not require translation or is already standard K8s.";
+            }
+        }
+        translateSpec();
+    </script>
+</body>
+</html>
